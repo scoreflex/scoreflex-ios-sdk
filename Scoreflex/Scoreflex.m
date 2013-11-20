@@ -384,23 +384,22 @@ static BOOL _isReachable = NO;
         codeInt == SX_PUSH_NOTIFICATION_TYPE_YOUR_TURN_IN_CHALLENGE)
     {
         NSString *challengeResource =  [NSString stringWithFormat:@"/web/challenges/instances/%@", [data objectForKey:@"challengeInstanceId"]];
-        [Scoreflex view:challengeResource params:nil forceFullScreen:true];
+        [Scoreflex showFullScreenView:challengeResource params:nil];
     }
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_FRIEND_JOINED_GAME)
     {
         NSString *friendResource =  [NSString stringWithFormat:@"/web/players/%@", [data objectForKey:@"friendId"]];
-        [Scoreflex view:friendResource params:nil forceFullScreen:true];
+        [Scoreflex showFullScreenView:friendResource params:nil];
 
     }
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_FRIEND_BEAT_YOUR_HIGHSCORE)
     {
         NSString *leaderboardResource =  [NSString stringWithFormat:@"/web/games/%@/leaderboards/%@", [data objectForKey:@"gameId"], [data objectForKey:@"leaderboardId"]];
-        [Scoreflex view:leaderboardResource params:nil forceFullScreen:true];
-
+        [Scoreflex showFullScreenView:leaderboardResource params:nil];
     }
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_PLAYER_LEVEL_CHANGED)
     {
-        [Scoreflex view:@"/web/players/me" params:nil forceFullScreen:true];
+        [Scoreflex showFullScreenView:@"/web/players/me" params:nil];
     }
 }
 
