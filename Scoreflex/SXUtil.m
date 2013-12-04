@@ -164,7 +164,17 @@ NSInteger const SXCodeLinkService = 200008;
     id errorJson = [json valueForKeyPath:@"error"];
     if (!errorJson)
         return nil;
-
+    if ([errorJson isKindOfClass:[NSArray class]])
+    {
+        for (id detailedError in ((NSArray *)errorJson))
+        {
+            if (detailedError && ![detailedError isKindOfClass:[NSNull class]])
+            {
+                return [[NSError alloc] initWithDomain:SXErrorDomain code:[[detailedError valueForKeyPath:@"code"] integerValue] userInfo:@{NSLocalizedDescriptionKey : [detailedError valueForKeyPath:@"message"]}];
+            }
+        }
+        return nil;
+    }
     return [[NSError alloc] initWithDomain:SXErrorDomain code:[[errorJson valueForKeyPath:@"code"] integerValue] userInfo:@{NSLocalizedDescriptionKey : [errorJson valueForKeyPath:@"message"]}];
 }
 

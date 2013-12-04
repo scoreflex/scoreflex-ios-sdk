@@ -242,9 +242,14 @@
     } else {
 
         if (((SXViewController*)self.viewController).fromTop == YES) {
+            CGRect destRect = CGRectMake(0, -self.viewController.view.frame.size.height, self.viewController.view.frame.size.width, self.viewController.view.frame.size.height);
+            if (UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
+            {
+                destRect = CGRectMake(self.viewController.view.frame.size.height, 0, self.viewController.view.frame.size.width, self.viewController.view.frame.size.height);
+            }
             [UIView animateWithDuration:0.5f
                              animations:^{
-                                self.viewController.view.frame = CGRectMake(self.viewController.view.frame.size.height, 0, self.viewController.view.frame.size.width, self.viewController.view.frame.size.height);
+                                 self.viewController.view.frame = destRect;
                              }  completion:^(BOOL finished) {
                                 [self.viewController dismissViewControllerAnimated:NO completion:nil];
                              }];
@@ -346,12 +351,20 @@
         [controller dismissModalViewControllerAnimated:NO];
     }
     if (self.frame.size.height == [Scoreflex getPanelHeight] && self.frame.origin.y == 0) {
-        viewController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].size.height, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+        CGRect sourceRect = CGRectMake(0, -[[UIScreen mainScreen] bounds].size.height, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+        CGRect destRect = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+        
+        if (UIDeviceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation))
+        {
+            sourceRect = CGRectMake([[UIScreen mainScreen] bounds].size.height, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+            destRect = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+        }
+        viewController.view.frame = sourceRect;
 
         viewController.fromTop = YES;
         [UIView animateWithDuration:0.5f
                          animations:^{
-                             viewController.view.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
+                             viewController.view.frame = destRect;
                          } completion:^(BOOL finished) {
 
                          }];
@@ -400,29 +413,6 @@
         } else {
             [self loadUrlAfterLoggedIn:resource params:params];
         }
-//    // Present the controller modally
-//    UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
-//    UIViewController *controller = [rootViewController modalViewController];
-//    if (controller != nil) {
-//        [controller dismissModalViewControllerAnimated:NO];
-//    }
-//    if (self.frame.size.height == [Scoreflex getPanelHeight] && self.frame.origin.y == 0) {
-//        viewController.view.frame = CGRectMake([[UIScreen mainScreen] bounds].size.height, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
-//
-//        viewController.fromTop = YES;
-//        [UIView animateWithDuration:0.5f
-//                         animations:^{
-//                             viewController.view.frame = CGRectMake(0, 0, [[UIScreen mainScreen] bounds].size.width, [[UIScreen mainScreen] bounds].size.height);
-//                         } completion:^(BOOL finished) {
-//
-//                         }];
-//        [rootViewController presentViewController:viewController animated:NO completion:nil];
-//
-//    } else {
-//        viewController.fromTop = NO;
-//        [rootViewController presentViewController:viewController animated:YES completion:nil];
-//    }
-//    });
 }
 
 - (void) openURL:(NSURL *)url forceFullScreen:(BOOL)forceFullScreen

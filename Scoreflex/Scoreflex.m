@@ -376,7 +376,7 @@ static BOOL _isReachable = NO;
     }
 
     if (![localPlayerId isEqualToString:targetPlayerId]) {
-        [Scoreflex view:@"/web/challenges" params:nil forceFullScreen:true];
+        [Scoreflex showFullScreenView:@"/web/challenges" params:nil];
         return;
     }
 
