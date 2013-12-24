@@ -467,10 +467,21 @@ typedef enum {
 /// @name Social network helper
 ///---------------------------------------
 
-
+/**
+ Sends a facebook app request inviting a user (or a list of users) to install the game
+ @param text The message that will be prefilled in the invitation.
+ @param friends A list of friend you want to invite.
+ @param deepLink any data you want to attach to the invitation
+*/
 + (BOOL) sendFacebookInvitation:(NSString*)text friends:(NSArray*) friends deepLinkPath:(NSString *) deepLink;
 
-
+/**
+ Attaches an `SXView` to your view hierarchy that displays the afterLevel Scoreflex widget.
+ @param text The message that will be prefilled in the invitation.
+ @param friends A list of friend you want to invite.
+ @param url The url your want to share on the interactive post button.
+ @param deepLink Any data you want to attach to the invitation.
+ */
 + (BOOL) sendGoogleInvitation:(NSString *)text friends:(NSArray *) friends url:(NSString *)url deepLinkPath:(NSString *)deepLink;
 
 

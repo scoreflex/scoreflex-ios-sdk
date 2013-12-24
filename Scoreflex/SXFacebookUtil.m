@@ -83,21 +83,18 @@
         
         NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys: [friends componentsJoinedByString:@","], @"suggestion", nil];
         Class sessionClass = NSClassFromString(@"FBSession");
-        
+        if (deepLink != nil) {
+            [params setValue:deepLink forKey:@"data"];
+        }
         [FBWebDialogs presentRequestsDialogModallyWithSession:[sessionClass activeSession]
                                                       message:text
                                                         title:text
                                                    parameters:params
                                                       handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
                                                           if (error) {
-                                                              // Case A: Error launching the dialog or sending request.
-                                                              NSLog(@"Error sending request.");
                                                           } else {
                                                               if (result == FBWebDialogResultDialogNotCompleted) {
-                                                                  // Case B: User clicked the "x" icon
-                                                                  NSLog(@"User canceled request.");
                                                               } else {
-//                                                                  NSLog(@"ResultURL:%@ ", [resultURL v);
                                                                   if (nil != callback) {
                                                                       NSArray *parameters = [[resultURL query] componentsSeparatedByString:@"&"];
                                                                       NSMutableArray *friends = [[NSMutableArray alloc] init];
