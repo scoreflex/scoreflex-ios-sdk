@@ -18,9 +18,9 @@
  */
 
 #import "SXGooglePlusUtil.h"
-#import <GooglePlus.h>
-#import <GTMOAuth2Authentication.h>
-#import <GoogleOpenSource.h>
+#import <GooglePlus/GooglePlus.h>
+//#import <GTMOAuth2Authentication.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
 
 @interface SXGooglePlusSignInDelegate : NSObject <GPPSignInDelegate>
 @property (nonatomic, weak) id<GPPSignInDelegate> previousDelegate;
@@ -74,6 +74,37 @@ static SXGooglePlusSignInDelegate *delegate = nil;
     Class cls = NSClassFromString(@"GPPSignIn");
     id signIn = [cls sharedInstance];
     [signIn signOut];
+}
+
++ (BOOL) sendInvitation:(NSString *)text friends:(NSArray *) friends url:(NSString *)url deepLinkPath:(NSString *)deepLink {
+    if (![self isGooglePlusAvailable])
+        return NO;
+    [self login:^(NSString *accessToken, NSError *error) {
+        Class sharer = NSClassFromString(@"GPPShare");
+        
+        id share = [sharer sharedInstance];
+        id shareBuilder = [share nativeShareDialog];
+        NSURL *urlToShare;
+        if (url != nil) {
+            urlToShare = [NSURL URLWithString:url];
+        } else {
+            urlToShare = nil;
+        }
+        
+        [shareBuilder setPrefillText:text];
+        [shareBuilder setContentDeepLinkID:deepLink];
+        if (urlToShare != nil) {
+            [shareBuilder setURLToShare:urlToShare];
+            [shareBuilder setCallToActionButtonWithLabel:@"ACCEPT" URL:urlToShare deepLinkID:deepLink];
+        }
+        
+        if (friends != nil) {
+            [shareBuilder setPreselectedPeopleIDs:friends];
+        }
+        
+        objc_msgSend(shareBuilder, @selector(open));
+    }];
+    return YES;
 }
 
 + (BOOL) handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

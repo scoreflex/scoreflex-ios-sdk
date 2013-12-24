@@ -542,7 +542,9 @@
 
         else if (code == SXCodeLinkService)
             return [self handleLinkService:queryParameters];
-
+        
+        else if (code == SXCodeSendInvitation)
+            return [self handleInvitation:queryParameters];
 
     } else {
         if (404 == status)
@@ -865,6 +867,43 @@
 
     return YES;
 }
+
+-(BOOL) handleInvitation:(NSDictionary *)params
+{
+    NSString *data = [params valueForKeyPath:@"data"];
+    if (!data)
+        return NO;
+
+    NSError *error = nil;
+    id dataJson = [NSJSONSerialization JSONObjectWithData:[data dataUsingEncoding:NSUTF8StringEncoding] options:0 error:&error];
+    if (error) {
+        NSLog(@"Could not parse json data:%@", error);
+        return NO;
+    }
+    NSString *service = [dataJson valueForKeyPath:@"service"];
+    
+    if ([@"Facebook" isEqualToString:service] && ![SXFacebookUtil isFacebookAvailable])
+        return NO;
+    
+    if ([@"Google" isEqualToString:service] && ![SXGooglePlusUtil isGooglePlusAvailable])
+        return NO;
+    
+    NSString *text = [dataJson valueForKey:@"text"];
+    NSArray *friends = [dataJson valueForKey:@"targetIds"];
+    
+    if ([@"Facebook" isEqualToString:service])
+    {
+        return [Scoreflex sendFacebookInvitation:text friends:friends deepLinkPath:@"invited"];
+    }
+    
+    if ([@"Google" isEqualToString:service])
+    {
+        NSString *url = [dataJson valueForKey:@"url"];
+        return [Scoreflex sendGoogleInvitation:text friends:friends url:url deepLinkPath:@"invited"];
+    }
+    return NO;
+}
+
 - (BOOL) handleNeedsAuth:(NSDictionary *)params
 {
     NSString *dataString = [params valueForKey:@"data"];

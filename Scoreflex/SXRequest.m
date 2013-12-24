@@ -116,10 +116,10 @@
     NSMutableArray *handledServices = [NSMutableArray array];
 
     if ([SXFacebookUtil isFacebookAvailable])
-        [handledServices addObject:@"Facebook"];
+        [handledServices addObject:@"Facebook:login|invite|share"];
 
     if ([SXGooglePlusUtil isGooglePlusAvailable])
-        [handledServices addObject:@"Google"];
+        [handledServices addObject:@"Google:login|invite|share"];
 
     if (handledServices.count)
         params = [[self class] addParameterIfNotPresent:@"handledServices" value:[handledServices componentsJoinedByString:@","] toParameters:params];

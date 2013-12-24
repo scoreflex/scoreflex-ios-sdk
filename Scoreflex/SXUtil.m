@@ -50,6 +50,7 @@ NSInteger const SXCodeMoveToNewURL = 200005;
 NSInteger const SXCodeNeedsClientAuth = 200006;
 NSInteger const SXCodeStartChallenge = 200007;
 NSInteger const SXCodeLinkService = 200008;
+NSInteger const SXCodeSendInvitation = 200009;
 
 
 @implementation SXUtil

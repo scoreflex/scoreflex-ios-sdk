@@ -463,8 +463,15 @@ typedef enum {
 + (UIView *) showRanksPanel:(NSString *)leaderboardId params:(id)params gravity:(SXGravity)gravity;
 
 
+///---------------------------------------
+/// @name Social network helper
+///---------------------------------------
 
 
++ (BOOL) sendFacebookInvitation:(NSString*)text friends:(NSArray*) friends deepLinkPath:(NSString *) deepLink;
+
+
++ (BOOL) sendGoogleInvitation:(NSString *)text friends:(NSArray *) friends url:(NSString *)url deepLinkPath:(NSString *)deepLink;
 
 
 

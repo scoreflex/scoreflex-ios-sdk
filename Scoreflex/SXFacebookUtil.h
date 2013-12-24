@@ -24,4 +24,5 @@
 + (void) login:(void(^)(NSString *accessToken, NSError *error))callback;
 + (void) logout;
 + (BOOL) handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
++(BOOL) sendInvitation:(NSString *)text friends:(NSArray *) friends deepLinkPath:(NSString *) deepLink callback:(void(^)(NSArray *invitedFriends))callback;
 @end

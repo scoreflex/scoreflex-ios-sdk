@@ -74,12 +74,10 @@
 		99CA2D571782DDE500F9356E /* SXFacebookUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99CA2D561782DDE500F9356E /* SXFacebookUtil.m */; };
 		99EEE3551769F7EE001D9CE3 /* SXUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99EEE3541769F7EE001D9CE3 /* SXUtil.m */; };
 		99FD9771177055EF007637B3 /* SXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FD9770177055EF007637B3 /* SXRequest.m */; };
-		F955E5CC17C7A5D10010A568 /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F955E5CB17C7A5D10010A568 /* GooglePlus.framework */; };
-		F955E5CE17C7A5D80010A568 /* GooglePlus.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F955E5CD17C7A5D80010A568 /* GooglePlus.bundle */; };
-		F955E5D217C7A6810010A568 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F955E5D117C7A6810010A568 /* GoogleOpenSource.framework */; };
-		F955E5D317C7A7070010A568 /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F955E5D117C7A6810010A568 /* GoogleOpenSource.framework */; };
 		F99BA0DF17B0FC6B00EF57A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99BA0DE17B0FC6B00EF57A6 /* UIKit.framework */; };
 		F9B0D04717A123CB005444DA /* ScoreflexResources.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9955BB9217834CD100EBF78A /* ScoreflexResources.bundle */; };
+		F9C9717E1868A1F80088CEFF /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C9717D1868A1F80088CEFF /* GooglePlus.framework */; };
+		F9C971831868A20F0088CEFF /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C971821868A20F0088CEFF /* GoogleOpenSource.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -209,10 +207,10 @@
 		99FD976F177055EF007637B3 /* SXRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SXRequest.h; sourceTree = "<group>"; };
 		99FD9770177055EF007637B3 /* SXRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SXRequest.m; sourceTree = "<group>"; };
 		F94F4D1B18290A16003870BA /* Scoreflex_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scoreflex_private.h; sourceTree = "<group>"; };
-		F955E5CB17C7A5D10010A568 /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "../goblins-attack-native/ios/GooglePlus.framework"; sourceTree = "<group>"; };
-		F955E5CD17C7A5D80010A568 /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "../goblins-attack-native/ios/GooglePlus.bundle"; sourceTree = "<group>"; };
-		F955E5D117C7A6810010A568 /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "../google-plus-ios-sdk-1.3.0/GoogleOpenSource.framework"; sourceTree = "<group>"; };
 		F99BA0DE17B0FC6B00EF57A6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F9C9717D1868A1F80088CEFF /* GooglePlus.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GooglePlus.framework; path = "../google-plus-ios-sdk-1.5.0/GooglePlus.framework"; sourceTree = "<group>"; };
+		F9C971811868A2090088CEFF /* GooglePlus.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GooglePlus.bundle; path = "../google-plus-ios-sdk-1.5.0/GooglePlus.bundle"; sourceTree = "<group>"; };
+		F9C971821868A20F0088CEFF /* GoogleOpenSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleOpenSource.framework; path = "../google-plus-ios-sdk-1.5.0/GoogleOpenSource.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,12 +227,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				F99BA0DF17B0FC6B00EF57A6 /* UIKit.framework in Frameworks */,
+				F9C971831868A20F0088CEFF /* GoogleOpenSource.framework in Frameworks */,
+				F9C9717E1868A1F80088CEFF /* GooglePlus.framework in Frameworks */,
 				991E48C7177B1EF70027F563 /* CoreLocation.framework in Frameworks */,
 				9991A816175F7EE500A01F31 /* SystemConfiguration.framework in Frameworks */,
 				9991A818175F7EEA00A01F31 /* MobileCoreServices.framework in Frameworks */,
 				9991A7A5175F678D00A01F31 /* Foundation.framework in Frameworks */,
-				F955E5CC17C7A5D10010A568 /* GooglePlus.framework in Frameworks */,
-				F955E5D317C7A7070010A568 /* GoogleOpenSource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,7 +247,6 @@
 				9991A7B4175F678D00A01F31 /* SenTestingKit.framework in Frameworks */,
 				9991A7B7175F678D00A01F31 /* Foundation.framework in Frameworks */,
 				9991A7BA175F678D00A01F31 /* libScoreflex.a in Frameworks */,
-				F955E5D217C7A6810010A568 /* GoogleOpenSource.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,9 +283,6 @@
 		9991A798175F678D00A01F31 = {
 			isa = PBXGroup;
 			children = (
-				F955E5D117C7A6810010A568 /* GoogleOpenSource.framework */,
-				F955E5CD17C7A5D80010A568 /* GooglePlus.bundle */,
-				F955E5CB17C7A5D10010A568 /* GooglePlus.framework */,
 				F99BA0DE17B0FC6B00EF57A6 /* UIKit.framework */,
 				9901093E1781D261002D2224 /* CoreGraphics.framework */,
 				991E48C6177B1EF70027F563 /* CoreLocation.framework */,
@@ -315,6 +309,9 @@
 		9991A7A3175F678D00A01F31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F9C971821868A20F0088CEFF /* GoogleOpenSource.framework */,
+				F9C971811868A2090088CEFF /* GooglePlus.bundle */,
+				F9C9717D1868A1F80088CEFF /* GooglePlus.framework */,
 				9991A817175F7EEA00A01F31 /* MobileCoreServices.framework */,
 				9991A815175F7EE400A01F31 /* SystemConfiguration.framework */,
 				9991A7A4175F678D00A01F31 /* Foundation.framework */,
@@ -534,7 +531,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9991A7C0175F678D00A01F31 /* InfoPlist.strings in Resources */,
-				F955E5CE17C7A5D80010A568 /* GooglePlus.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,11 +715,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/Users/$(USER)/Documents/FacebookSDK/FacebookSDK.framework/Headers",
-					"$(PROJECT_DIR)/../google-plus-ios-sdk-1.3.0/GooglePlus.framework/Headers",
-					"$(PROJECT_DIR)/../google-plus-ios-sdk-1.3.0/GoogleOpenSource.framework/Headers",
-				);
+				HEADER_SEARCH_PATHS = "/Users/$(USER)/Documents/FacebookSDK/FacebookSDK.framework/Headers";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -749,11 +741,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					"/Users/$(USER)/Documents/FacebookSDK/FacebookSDK.framework/Headers",
-					"$(PROJECT_DIR)/../google-plus-ios-sdk-1.3.0/GooglePlus.framework/Headers",
-					"$(PROJECT_DIR)/../google-plus-ios-sdk-1.3.0/GoogleOpenSource.framework/Headers",
-				);
+				HEADER_SEARCH_PATHS = "/Users/$(USER)/Documents/FacebookSDK/FacebookSDK.framework/Headers";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -769,8 +757,9 @@
 				DSTROOT = /tmp/Scoreflex.dst;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../goblins-attack-native/ios\"",
-					"\"$(SRCROOT)/../google-plus-ios-sdk-1.3.0\"",
+					"\\\\\\\"$(SRCROOT)/../goblins-attack-native/ios\\\\\\\"",
+					"/Users/julien/Dev/scoreflex-ios-sdk",
+					"/Users/julien/Dev/google-plus-ios-sdk-1.5.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Scoreflex/Scoreflex-Prefix.pch";
@@ -794,8 +783,9 @@
 				DSTROOT = /tmp/Scoreflex.dst;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../goblins-attack-native/ios\"",
-					"\"$(SRCROOT)/../google-plus-ios-sdk-1.3.0\"",
+					"\\\\\\\"$(SRCROOT)/../goblins-attack-native/ios\\\\\\\"",
+					"/Users/julien/Dev/scoreflex-ios-sdk",
+					"/Users/julien/Dev/google-plus-ios-sdk-1.5.0",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Scoreflex/Scoreflex-Prefix.pch";
@@ -816,7 +806,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"\"$(SRCROOT)/../google-plus-ios-sdk-1.3.0\"",
+					"\"$(SRCROOT)/../google-plus-ios-sdk-1.5.0\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Scoreflex/Scoreflex-Prefix.pch";
@@ -832,7 +822,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
-					"\"$(SRCROOT)/../google-plus-ios-sdk-1.3.0\"",
+					"\"$(SRCROOT)/../google-plus-ios-sdk-1.5.0\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Scoreflex/Scoreflex-Prefix.pch";

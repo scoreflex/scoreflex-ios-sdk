@@ -19,6 +19,7 @@
 
 #import "SXFacebookUtil.h"
 #import <FBSession.h>
+#import <FBWebDialogs.h>
 #import <FBAccessTokenData.h>
 #import <FBSessionTokenCachingStrategy.h>
 
@@ -71,6 +72,48 @@
     Class tokenStrategy = NSClassFromString(@"FBSessionTokenCachingStrategy");
     id defaultStrategy = [tokenStrategy defaultInstance];
     [defaultStrategy clearToken];
+}
+
++(BOOL) sendInvitation:(NSString *)text friends:(NSArray *) friends deepLinkPath:(NSString *) deepLink callback:(void(^)(NSArray *invitedFriends))callback
+{
+    if (![self isFacebookAvailable])
+        return NO;
+    
+    [self login:^(NSString *accessToken, NSError *error) {
+        
+        NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys: [friends componentsJoinedByString:@","], @"suggestion", nil];
+        Class sessionClass = NSClassFromString(@"FBSession");
+        
+        [FBWebDialogs presentRequestsDialogModallyWithSession:[sessionClass activeSession]
+                                                      message:text
+                                                        title:text
+                                                   parameters:params
+                                                      handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                          if (error) {
+                                                              // Case A: Error launching the dialog or sending request.
+                                                              NSLog(@"Error sending request.");
+                                                          } else {
+                                                              if (result == FBWebDialogResultDialogNotCompleted) {
+                                                                  // Case B: User clicked the "x" icon
+                                                                  NSLog(@"User canceled request.");
+                                                              } else {
+//                                                                  NSLog(@"ResultURL:%@ ", [resultURL v);
+                                                                  if (nil != callback) {
+                                                                      NSArray *parameters = [[resultURL query] componentsSeparatedByString:@"&"];
+                                                                      NSMutableArray *friends = [[NSMutableArray alloc] init];
+                                                                      for (NSString *parameter in parameters) {
+                                                                          if ([parameter hasPrefix:@"to"]) {
+                                                                              [friends addObject:[[parameter componentsSeparatedByString:@"="] objectAtIndex:1]];
+                                                                          }
+                                                                      }
+                                                                      callback(friends);
+                                                                  }
+                                                              }
+                                                          }}
+                                                  friendCache:nil];
+
+    }];
+    return YES;
 }
 
 + (BOOL) handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

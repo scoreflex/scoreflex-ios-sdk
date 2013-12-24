@@ -364,6 +364,17 @@ static BOOL _isReachable = NO;
    return [[SXConfiguration sharedConfiguration] playerId];
 }
 
++ (BOOL) sendGoogleInvitation:(NSString *)text friends:(NSArray *) friends url:(NSString *)url deepLinkPath:(NSString *)deepLink {
+    return [SXGooglePlusUtil sendInvitation:text friends:friends url:url deepLinkPath:deepLink];
+}
+
++ (BOOL) sendFacebookInvitation:(NSString*)text friends:(NSArray*) friends deepLinkPath:(NSString *) deepLink {
+    return [SXFacebookUtil sendInvitation:text friends:friends deepLinkPath:deepLink callback:^(NSArray *invitedFriends) {
+        NSString *friends = [NSString stringWithFormat:@"Facebook:%@", [invitedFriends componentsJoinedByString:@",Facebook:"]];
+        [Scoreflex postEventually:[NSString stringWithFormat:@"/social/invitations/%@",friends] params:nil handler:nil];
+    } ];
+}
+
 + (void) handleScoreflexNotification:(NSDictionary*) scoreflexNotification
 {
     NSNumber *code = [scoreflexNotification objectForKey:@"code"];

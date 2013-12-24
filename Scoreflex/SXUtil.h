@@ -163,6 +163,7 @@ extern NSInteger const SXCodeMoveToNewURL;
 extern NSInteger const SXCodeNeedsClientAuth;
 extern NSInteger const SXCodeStartChallenge;
 extern NSInteger const SXCodeLinkService;
+extern NSInteger const SXCodeSendInvitation;
 
 
 
