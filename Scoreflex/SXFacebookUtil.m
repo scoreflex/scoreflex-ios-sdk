@@ -20,6 +20,8 @@
 #import "SXFacebookUtil.h"
 #import <FBSession.h>
 #import <FBWebDialogs.h>
+#import <FBDialogs.h>
+#import <FBShareDialogParams.h>
 #import <FBAccessTokenData.h>
 #import <FBSessionTokenCachingStrategy.h>
 
@@ -72,6 +74,27 @@
     Class tokenStrategy = NSClassFromString(@"FBSessionTokenCachingStrategy");
     id defaultStrategy = [tokenStrategy defaultInstance];
     [defaultStrategy clearToken];
+}
+
+
++(BOOL) shareUrl:(NSString *) title text:(NSString *) text url:(NSString *) url
+{
+    if (![self isFacebookAvailable])
+        return NO;
+    
+    [self login:^(NSString *accessToken, NSError *error) {
+        FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
+        params.link = [NSURL URLWithString:url];
+        params.name = title;
+        params.caption= title;
+        params.description = text;
+        [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+            
+        }];
+    }];
+    return YES;
+        
+    
 }
 
 +(BOOL) sendInvitation:(NSString *)text friends:(NSArray *) friends deepLinkPath:(NSString *) deepLink callback:(void(^)(NSArray *invitedFriends))callback

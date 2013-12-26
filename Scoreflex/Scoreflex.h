@@ -468,12 +468,28 @@ typedef enum {
 ///---------------------------------------
 
 /**
+ Post the specified link current facebook user wall
+ @param text The message that will be prefilled in the post.
+ @param title The title of the shared link.
+ @param url The URL to share.
+ */
+
++ (BOOL) shareOnFacebook:(NSString *)title text:(NSString *)text url:(NSString *) url;
+
+/**
  Sends a facebook app request inviting a user (or a list of users) to install the game
  @param text The message that will be prefilled in the invitation.
  @param friends A list of friend you want to invite.
  @param deepLink any data you want to attach to the invitation
 */
 + (BOOL) sendFacebookInvitation:(NSString*)text friends:(NSArray*) friends deepLinkPath:(NSString *) deepLink;
+
+/**
+ Post the specified link current Google plus user
+ @param text The message that will be prefilled in the post.
+ @param url The URL to share.
+ */
++ (BOOL) shareOnGoogle:(NSString *) text url:(NSString *) url;
 
 /**
  Attaches an `SXView` to your view hierarchy that displays the afterLevel Scoreflex widget.

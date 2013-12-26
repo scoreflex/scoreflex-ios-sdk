@@ -76,6 +76,23 @@ static SXGooglePlusSignInDelegate *delegate = nil;
     [signIn signOut];
 }
 
+
++ (BOOL) shareUrl:(NSString *) text url:(NSString*) url {
+    if (![self isGooglePlusAvailable])
+        return NO;
+    [self login:^(NSString *accessToken, NSError *error) {
+        Class sharer = NSClassFromString(@"GPPShare");
+        
+        id share = [sharer sharedInstance];
+        id shareBuilder = [share nativeShareDialog];
+        NSURL *urlToShare = [NSURL URLWithString:url];
+        [shareBuilder setPrefillText:text];
+        [shareBuilder setURLToShare:urlToShare];        
+        objc_msgSend(shareBuilder, @selector(open));
+    }];
+    return YES;
+}
+
 + (BOOL) sendInvitation:(NSString *)text friends:(NSArray *) friends url:(NSString *)url deepLinkPath:(NSString *)deepLink {
     if (![self isGooglePlusAvailable])
         return NO;

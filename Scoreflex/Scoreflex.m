@@ -364,8 +364,16 @@ static BOOL _isReachable = NO;
    return [[SXConfiguration sharedConfiguration] playerId];
 }
 
++ (BOOL) shareOnGoogle:(NSString *) text url:(NSString *) url {
+    return [SXGooglePlusUtil shareUrl:text url:url];
+}
+
 + (BOOL) sendGoogleInvitation:(NSString *)text friends:(NSArray *) friends url:(NSString *)url deepLinkPath:(NSString *)deepLink {
     return [SXGooglePlusUtil sendInvitation:text friends:friends url:url deepLinkPath:deepLink];
+}
+
++ (BOOL) shareOnFacebook:(NSString *)title text:(NSString *)text url:(NSString *) url {
+    return [SXFacebookUtil shareUrl:title text:text url:url];
 }
 
 + (BOOL) sendFacebookInvitation:(NSString*)text friends:(NSArray*) friends deepLinkPath:(NSString *) deepLink {
