@@ -414,7 +414,10 @@ static BOOL _isReachable = NO;
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_FRIEND_BEAT_YOUR_HIGHSCORE)
     {
         NSString *leaderboardResource =  [NSString stringWithFormat:@"/web/games/%@/leaderboards/%@", [data objectForKey:@"gameId"], [data objectForKey:@"leaderboardId"]];
-        [Scoreflex showFullScreenView:leaderboardResource params:nil];
+        NSString *friendId = [data objectForKey:@"friendId"];
+        NSDictionary *params = @{@"friendsOnly": @"true", @"focus":friendId};
+        
+        [Scoreflex showFullScreenView:leaderboardResource params:params];
     }
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_PLAYER_LEVEL_CHANGED)
     {
