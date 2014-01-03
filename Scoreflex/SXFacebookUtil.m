@@ -88,9 +88,26 @@
         params.name = title;
         params.caption= title;
         params.description = text;
-        [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-            
-        }];
+        if ([FBDialogs canPresentShareDialogWithParams:params]){
+            [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                
+            }];
+        } else {
+            NSMutableDictionary *shareParams = [[NSMutableDictionary alloc] initWithObjectsAndKeys:text, @"description", nil];
+            if (title != nil) {
+                [shareParams setObject:title forKey:@"caption"];
+            }
+            if (url != nil) {
+                [shareParams setObject:url forKey:@"link"];
+            }
+            // Invoke the dialog
+            [FBWebDialogs presentFeedDialogModallyWithSession:[FBSession activeSession]
+                                                   parameters:shareParams
+                                                      handler:
+             ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+
+                }];
+        }
     }];
     return YES;
         

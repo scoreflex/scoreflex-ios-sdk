@@ -593,6 +593,7 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:SX_NOTIFICATION_PLAY_LEVEL
                                                         object:self
                                                       userInfo:userInfo];
+    return YES;
 }
 
 - (BOOL) handleStartChallenge:(NSDictionary *) params
@@ -605,10 +606,11 @@
         // let the developer see the error
         return NO;
     }
+    NSDictionary *instanceGetParams = @{@"fields": @"core,turn,outcome,config"};
 
-    [Scoreflex get:[NSString stringWithFormat:@"challenges/instances/%@", [dataJson valueForKey:@"challengeInstanceId"]] params:nil
+    [Scoreflex get:[NSString stringWithFormat:@"challenges/instances/%@", [dataJson valueForKey:@"challengeInstanceId"]] params:instanceGetParams
            handler:^(SXResponse *response, NSError *error) {
-               NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[response object], SX_NOTIFICATION_START_CHALLENGE_CONFIG_KEY,  [dataJson valueForKey:@"challengeConfigId"], SX_NOTIFICATION_START_CHALLENGE_CONFIG_ID_KEY, nil];
+               NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[response object], SX_NOTIFICATION_START_CHALLENGE_CONFIG_KEY, nil];
 
 //               [NSDictionary dictionaryWithObjects:[response object], [dataJson valueForKey:@"challengeConfigId"] forKey:SX_NOTIFICATION_START_CHALLENGE_CONFIG_KEY, SX_NOTIFICATION_START_CHALLENGE_CONFIG_ID_KEY];
                [Scoreflex startPlayingSession];
