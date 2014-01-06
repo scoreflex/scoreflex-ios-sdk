@@ -555,17 +555,11 @@ static BOOL _isReachable = NO;
 
     SXViewController *controller = [_preloadedWebview valueForKey:resource];
     if (controller != nil) {
-//        [self showViewController:controller];
         [_preloadedWebview removeObjectForKey:resource];
         return controller;
     }
-    SXRequest *request = [[SXRequest alloc] init];
-    request.resource = resource;
-    request.method = @"GET";
-    request.params = params;
     SXViewController *viewController = [[SXViewController alloc] initWithNibName:@"SXViewController" bundle:[Scoreflex bundle]];
-    viewController.request = request;
-//    [viewController preload];
+    [viewController.scoreflexView openResource:resource params:params forceFullScreen:YES];
     return viewController;
 }
 
