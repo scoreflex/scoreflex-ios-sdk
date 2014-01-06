@@ -48,9 +48,13 @@ static SXGooglePlusSignInDelegate *delegate = nil;
 
     Class cls = NSClassFromString(@"GPPSignIn");
     id signIn = [cls sharedInstance];
-    return [signIn clientID] ? YES : NO;
-
+    NSString *appId = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GooglePlusAppID"];
+    if ([signIn clientID] == nil && appId != nil) {
+        [signIn setClientID:appId];
+    }
+    return appId != nil;
 }
+
 + (void) login:(void(^)(NSString *accessToken, NSError *error))callback
 {
     if (![self isGooglePlusAvailable])
