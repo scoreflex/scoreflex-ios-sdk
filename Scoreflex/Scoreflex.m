@@ -413,7 +413,7 @@ static BOOL _isReachable = NO;
     }
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_FRIEND_BEAT_YOUR_HIGHSCORE)
     {
-        NSString *leaderboardResource =  [NSString stringWithFormat:@"/web/games/%@/leaderboards/%@", [data objectForKey:@"gameId"], [data objectForKey:@"leaderboardId"]];
+        NSString *leaderboardResource =  [NSString stringWithFormat:@"/web/leaderboards/%@", [data objectForKey:@"leaderboardId"]];
         NSString *friendId = [data objectForKey:@"friendId"];
         NSDictionary *params = @{@"friendsOnly": @"true", @"focus":friendId};
         
