@@ -228,6 +228,7 @@ typedef enum {
  */
 + (BOOL) handleURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 
+
 ///---------------------------------------
 /// @name Scoreflex variables
 ///---------------------------------------
@@ -658,26 +659,25 @@ typedef enum {
         }
     }
 
- and
-
-    - (void)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-    {
-        if (launchOptions != nil)
-        {
-            NSDictionary *dictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-            if (dictionary != nil)
-            {
-                [Scoreflex handleNotification:dictionary];
-                [application cancelAllLocalNotifications];
-            }
-        }
-    }
-
-
  @param the notification dictionnary
  */
 + (BOOL) handleNotification:(NSDictionary*) notificationDictionnary;
 
+
+/**
+ Handle the Apple push notifications, to be called in your
+ 
+ - (void)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+ {
+    if ([Scoreflex handleNotification:launchOptions]) 
+    {
+        [application cancelAllLocalNotifications];
+    }
+ }
+ @param the launchOptions of your application
+
+ */
++ (BOOL) handleApplicationLaunchWithOption:(NSDictionary*) launchOptions;
 
 + (NSInteger) getPanelHeight;
 

@@ -450,19 +450,19 @@ static BOOL _isReachable = NO;
     {
         return NO;
     }
-
+    
     NSDictionary *customField = [notificationDictionnary objectForKey:@"custom"];
     if (customField == nil)
     {
         return NO;
     }
-
+    
     NSDictionary *scoreflexData = [customField objectForKey:SX_PUSH_NOTIFICATION_KEY];
     if (scoreflexData == nil)
     {
         return NO;
     }
-
+    
     NSNumber *code = [scoreflexData objectForKey:@"code"];
     if ([code intValue] >= SX_PUSH_NOTIFICATION_TYPE_CHALLENGE_INVITATION)
     {
@@ -476,8 +476,18 @@ static BOOL _isReachable = NO;
         }
         return YES;
     }
-
+    
     return NO;
+}
+
++ (BOOL) handleApplicationLaunchWithOption:(NSDictionary*) launchOptions
+{
+    if (launchOptions == nil)
+	{
+        return NO;
+    }
+	NSDictionary *notificationDictionnary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    return [self handleNotification:notificationDictionnary];
 }
 
 #pragma mark - Location

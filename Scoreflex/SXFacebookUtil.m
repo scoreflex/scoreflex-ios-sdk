@@ -76,80 +76,99 @@
     [defaultStrategy clearToken];
 }
 
++ (void) shareUrlLoggedIn:(NSString *) title text:(NSString *) text url:(NSString *) url
+{
+    FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
+    params.link = [NSURL URLWithString:url];
+    params.name = title;
+    params.caption= title;
+    params.description = text;
+    if ([FBDialogs canPresentShareDialogWithParams:params]){
+        [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+            
+        }];
+    } else {
+        NSMutableDictionary *shareParams = [[NSMutableDictionary alloc] initWithObjectsAndKeys:text, @"description", nil];
+        if (title != nil) {
+            [shareParams setObject:title forKey:@"caption"];
+        }
+        if (url != nil) {
+            [shareParams setObject:url forKey:@"link"];
+        }
+        // Invoke the dialog
+        [FBWebDialogs presentFeedDialogModallyWithSession:[FBSession activeSession]
+                                               parameters:shareParams
+                                                  handler:
+         ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+             
+         }];
+    }
+}
 
 +(BOOL) shareUrl:(NSString *) title text:(NSString *) text url:(NSString *) url
 {
     if (![self isFacebookAvailable])
         return NO;
-    
-    [self login:^(NSString *accessToken, NSError *error) {
-        FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
-        params.link = [NSURL URLWithString:url];
-        params.name = title;
-        params.caption= title;
-        params.description = text;
-        if ([FBDialogs canPresentShareDialogWithParams:params]){
-            [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
-                
-            }];
-        } else {
-            NSMutableDictionary *shareParams = [[NSMutableDictionary alloc] initWithObjectsAndKeys:text, @"description", nil];
-            if (title != nil) {
-                [shareParams setObject:title forKey:@"caption"];
-            }
-            if (url != nil) {
-                [shareParams setObject:url forKey:@"link"];
-            }
-            // Invoke the dialog
-            [FBWebDialogs presentFeedDialogModallyWithSession:[FBSession activeSession]
-                                                   parameters:shareParams
-                                                      handler:
-             ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-
-                }];
-        }
-    }];
+    Class sessionClass = NSClassFromString(@"FBSession");
+    if ([sessionClass activeSession] == nil) {
+        [self login:^(NSString *accessToken, NSError *error) {
+            [self shareUrlLoggedIn:title text:text url:url];
+        }];
+    } else {
+        [self shareUrlLoggedIn:title text:text url:url];
+    }
     return YES;
         
     
+}
+
++(void) inviteFriends:(NSString*)text friends:(NSArray*) friends deepLinkPath:(NSString *) deepLink callback:(void(^)(NSArray *invitedFriends))callback
+{
+    NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys: [friends componentsJoinedByString:@","], @"suggestion", nil];
+    Class sessionClass = NSClassFromString(@"FBSession");
+    if (deepLink != nil) {
+        [params setValue:deepLink forKey:@"data"];
+    }
+    [FBWebDialogs presentRequestsDialogModallyWithSession:[sessionClass activeSession]
+                                                  message:text
+                                                    title:text
+                                               parameters:params
+                                                  handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
+                                                      if (error) {
+                                                      } else {
+                                                          if (result == FBWebDialogResultDialogNotCompleted) {
+                                                          } else {
+                                                              if (nil != callback) {
+                                                                  NSArray *parameters = [[resultURL query] componentsSeparatedByString:@"&"];
+                                                                  NSMutableArray *friends = [[NSMutableArray alloc] init];
+                                                                  for (NSString *parameter in parameters) {
+                                                                      if ([parameter hasPrefix:@"to"]) {
+                                                                          [friends addObject:[[parameter componentsSeparatedByString:@"="] objectAtIndex:1]];
+                                                                      }
+                                                                  }
+                                                                  callback(friends);
+                                                              }
+                                                          }
+                                                      }}
+                                              friendCache:nil];
+
 }
 
 +(BOOL) sendInvitation:(NSString *)text friends:(NSArray *) friends deepLinkPath:(NSString *) deepLink callback:(void(^)(NSArray *invitedFriends))callback
 {
     if (![self isFacebookAvailable])
         return NO;
-    
-    [self login:^(NSString *accessToken, NSError *error) {
-        
-        NSMutableDictionary* params =   [NSMutableDictionary dictionaryWithObjectsAndKeys: [friends componentsJoinedByString:@","], @"suggestion", nil];
-        Class sessionClass = NSClassFromString(@"FBSession");
-        if (deepLink != nil) {
-            [params setValue:deepLink forKey:@"data"];
-        }
-        [FBWebDialogs presentRequestsDialogModallyWithSession:[sessionClass activeSession]
-                                                      message:text
-                                                        title:text
-                                                   parameters:params
-                                                      handler:^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
-                                                          if (error) {
-                                                          } else {
-                                                              if (result == FBWebDialogResultDialogNotCompleted) {
-                                                              } else {
-                                                                  if (nil != callback) {
-                                                                      NSArray *parameters = [[resultURL query] componentsSeparatedByString:@"&"];
-                                                                      NSMutableArray *friends = [[NSMutableArray alloc] init];
-                                                                      for (NSString *parameter in parameters) {
-                                                                          if ([parameter hasPrefix:@"to"]) {
-                                                                              [friends addObject:[[parameter componentsSeparatedByString:@"="] objectAtIndex:1]];
-                                                                          }
-                                                                      }
-                                                                      callback(friends);
-                                                                  }
-                                                              }
-                                                          }}
-                                                  friendCache:nil];
-
-    }];
+    Class sessionClass = NSClassFromString(@"FBSession");
+    if ([sessionClass activeSession] == nil) {
+        [self login:^(NSString *accessToken, NSError *error) {
+            if (error != nil) {
+                return;
+            }
+            [self inviteFriends:text friends:friends deepLinkPath:deepLink callback:callback];
+        }];
+    } else {
+        [self inviteFriends:text friends:friends deepLinkPath:deepLink callback:callback];
+    }
     return YES;
 }
 
