@@ -614,6 +614,8 @@
 
 //               [NSDictionary dictionaryWithObjects:[response object], [dataJson valueForKey:@"challengeConfigId"] forKey:SX_NOTIFICATION_START_CHALLENGE_CONFIG_KEY, SX_NOTIFICATION_START_CHALLENGE_CONFIG_ID_KEY];
                [Scoreflex startPlayingSession];
+               UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+               [rootViewController dismissModalViewControllerAnimated:YES];
                [[NSNotificationCenter defaultCenter] postNotificationName:SX_NOTIFICATION_START_CHALLENGE
                                                                   object:self
                                                                  userInfo:userInfo];
