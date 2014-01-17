@@ -67,6 +67,9 @@
         return;
 
     Class sessionClass = NSClassFromString(@"FBSession");
+    if ([sessionClass activeSession] == nil) {
+        return;
+    }
     [[sessionClass activeSession] closeAndClearTokenInformation];
     [[sessionClass activeSession] close];
     [sessionClass setActiveSession:nil];

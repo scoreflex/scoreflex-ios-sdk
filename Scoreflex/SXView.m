@@ -664,15 +664,12 @@
     for (NSHTTPCookie *cookie in cookies)
         [storage deleteCookie:cookie];
 
-    [SXFacebookUtil logout];
-
-    [SXGooglePlusUtil logout];
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // Fetch anonymous access token
     [[SXClient sharedClient] fetchAnonymousAccessTokenIfNeeded];
-
     [self close];
+
+    [SXFacebookUtil logout];
+    [SXGooglePlusUtil logout];
     return YES;
 }
 
@@ -733,40 +730,7 @@
     request.resource = @"/oauth/accessToken";
     request.params = [NSDictionary dictionaryWithDictionary:oauthParams];
     request.handler = ^(SXResponse *response, NSError *error) {
-
-        if (error) {
-            SXLog(@"Error: %@", error.localizedDescription);
-            return;
-        }
-
-        NSString *accessToken = [response.object valueForKeyPath:@"accessToken.token"];
-        if (!accessToken) {
-            SXLog(@"Error authenticating, server didn't return an access token");
-            return;
-        }
-
-        NSString *sid = [response.object valueForKeyPath:@"sid"];
-        if (!sid) {
-            SXLog(@"Error authenticating, server didn't return an sid");
-            return;
-        }
-
-
-
-        [configuration setAccessToken:accessToken anonymous:NO];
-        configuration.sid = sid;
-        NSString *playerId = [response.object valueForKeyPath:@"me.id"];
-        configuration.playerId = playerId;
-
-        NSDictionary *userInfo = @{SX_NOTIFICATION_USER_LOGED_IN_SID_KEY: sid,
-                                   SX_NOTIFICATION_USER_LOGED_IN_ACCESS_TOKEN_KEY:accessToken};
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:SX_NOTIFICATION_USER_LOGED_IN
-                                                            object:self
-                                                          userInfo:userInfo];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:) name:SX_NOTIFICATION_USER_LOGED_IN object:nil];
-        if (self.authNextURL)
-            [self openURL:self.authNextURL forceFullScreen:NO];
+        [self handleLoginResponse:response error:error];
     };
 
     // Send the request.
@@ -790,15 +754,69 @@
     }
 
     NSString *service = [dataJson valueForKey:@"service"];
-    return [self nativeLogin:params nextResource:[NSString stringWithFormat:@"/web/linkExternallyAuthenticated/%@", service]];
+    return [self nativeLogin:params isLink:YES];
 }
 
 - (BOOL) handleNeedsClientAuth:(NSDictionary *)params
 {
-    return [self nativeLogin:params nextResource:@"/oauth/web/authorizeExternallyAuthenticated"];
+    return [self nativeLogin:params isLink:NO];
 }
 
-- (BOOL) nativeLogin:(NSDictionary *)params nextResource:(NSString *)nextResource
+- (void) handleLoginResponse:(SXResponse *) response error:(NSError *) error {
+    if (error) {
+        SXLog(@"Error: %@", error.localizedDescription);
+        return;
+    }
+
+    NSString *accessToken = [response.object valueForKeyPath:@"accessToken.token"];
+    if (!accessToken) {
+        SXLog(@"Error authenticating, server didn't return an access token");
+        return;
+    }
+
+    NSString *sid = [response.object valueForKeyPath:@"sid"];
+    if (!sid) {
+        SXLog(@"Error authenticating, server didn't return an sid");
+        return;
+    }
+
+
+    SXConfiguration *configuration = [SXConfiguration sharedConfiguration];
+    [configuration setAccessToken:accessToken anonymous:NO];
+    configuration.sid = sid;
+    NSString *playerId = [response.object valueForKeyPath:@"me.id"];
+    configuration.playerId = playerId;
+
+    NSDictionary *userInfo = @{SX_NOTIFICATION_USER_LOGED_IN_SID_KEY: sid,
+                               SX_NOTIFICATION_USER_LOGED_IN_ACCESS_TOKEN_KEY:accessToken};
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SX_NOTIFICATION_USER_LOGED_IN
+                                                        object:self
+                                                      userInfo:userInfo];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoggedIn:) name:SX_NOTIFICATION_USER_LOGED_IN object:nil];
+    if (self.authNextURL)
+        [self openURL:self.authNextURL forceFullScreen:NO];
+
+}
+
+-(void) handleLinkService:(NSMutableDictionary *)params error:(NSError *) error service:(NSString *)service {
+    if (error) {
+        SXLog(@"Native login error: %@", error);
+        return;
+    }
+
+    // A random state
+    self.authState = [SXUtil UUIDString];
+
+    if (params) {
+        if (self.authNextURL) {
+            [params setValue:self.authNextURL forKey:@"next"];
+        }
+        [self openResource:[NSString stringWithFormat:@"/web/linkExternallyAuthenticated/%@", service] params:params];
+    }
+}
+
+- (BOOL) nativeLogin:(NSDictionary *)params isLink:(BOOL) isLink
 {
     NSString *data = [params valueForKeyPath:@"data"];
     if (!data)
@@ -832,33 +850,32 @@
         return NO;
     } else {
         void(^callback)(NSString *accessToken, NSError *error) = ^(NSString *accessToken, NSError *error) {
+            SXConfiguration *configuration = [SXConfiguration sharedConfiguration];
+            NSMutableDictionary *oauthParams = [NSMutableDictionary dictionaryWithDictionary:@{
+                                                                                               @"clientId" : configuration.clientId,
+                                                                                               @"devicePlatform" : @"iOS",
+                                                                                               @"service": service,
+                                                                                               @"deviceModel" : [SXUtil deviceModel],
+                                                                                               @"serviceAccessToken":accessToken,
+                                                                                               @"state" : self.authState ? self.authState : [NSNull null]
+                                                                                               }];
+            NSString *udid = [SXUtil deviceIdentifier];
+            if (udid)
+                [oauthParams setValue:udid forKey:@"deviceId"];
 
-            // TODO: error management here
-            if (error) {
-                SXLog(@"Native login error: %@", error);
-                return;
-            }
-
-            // A random state
-            self.authState = [SXUtil UUIDString];
-
-            if (accessToken) {
-                SXConfiguration *configuration = [SXConfiguration sharedConfiguration];
-                NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:@{@"clientId" :          configuration.clientId,
-                                         @"service" :           service,
-                                         @"serviceAccessToken" :accessToken,
-                                         @"state" :             self.authState ? self.authState : [NSNull null],
-                                         @"devicePlatform" :    @"iOS",
-                                         @"deviceModel" :       [SXUtil deviceModel],
-                                         @"deviceId" : [SXUtil deviceIdentifier],
-                                         }];
-                // Is the access token anonymous ? If so communicate it.
-                if (configuration.accessToken && configuration.accessTokenIsAnonymous)
-                    [params setValue:configuration.accessToken forKey:@"anonymousAccessToken"];
-                if (self.authNextURL) {
-                    [params setValue:self.authNextURL forKey:@"next"];
-                }
-                [self openResource:nextResource params:params];
+            if (isLink) {
+                [self handleLinkService:oauthParams error:error service:service];
+            } else {
+                self.authState = [SXUtil UUIDString];
+                SXRequest *request = [[SXRequest alloc] init];
+                request.method = @"POST";
+                request.resource = @"/oauth/accessTokenExternallyAuthenticated";
+                request.params = [NSDictionary dictionaryWithDictionary:oauthParams];
+                request.handler = ^(SXResponse *response, NSError *error) {
+                    [self handleLoginResponse:response error:error];
+                };
+                SXClient *client = [SXClient sharedClient];
+                [client requestAuthenticated:request];
             }
         };
         if ([@"Facebook" isEqualToString:service]) {
