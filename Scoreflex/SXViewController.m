@@ -66,8 +66,10 @@
 
     if (self.isPreloading == NO) {
     // Open the resource
-        SXLog(@"opening resource from view controller");
-        [self.scoreflexView openResource:self.request.resource params:self.request.params forceFullScreen:NO];
+//        SXLog(@"opening resource from view controller");
+        if (self.request.resource != nil)
+            [self.scoreflexView openResource:self.request.resource params:self.request.params forceFullScreen:NO];
+        
         [self setState:SXViewControllerStateInitial];
     } else {
         [self setState:SXViewControllerStateWebContent];

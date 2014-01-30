@@ -154,15 +154,15 @@ static int const kOpenUDIDRedundancySlots = 100;
         guess... it involves including a .h file from a nine-letter framework that ends
         with the word "Support", and then assigning _openUDID with the only identifier method called on the sharedManager of that new class... don't forget to add
         the framework to your project!
-     
+     */
 #if TARGET_OS_IPHONE
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0")) {
-        _openUDID = [[[UIDevice currentDevice] identifierForA_______] UUIDString];
-# error                                                         ^ read comments above, fix accordingly, and remove this #error line
+        _openUDID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+//# error                                                         ^ read comments above, fix accordingly, and remove this #error line
     }
 #endif
     
-     */
+     
     
     // Next we generate a UUID.
     // UUIDs (Universally Unique Identifiers), also known as GUIDs (Globally Unique Identifiers) or IIDs
@@ -196,7 +196,6 @@ static int const kOpenUDIDRedundancySlots = 100;
     // NOTE that the goal is NOT to find a better hash method, but rather, find a decentralized (i.e. not web-based)
     // 160 bits / 20 bytes random string generator with the fewest possible collisions.
     // 
-
     return _openUDID;
 }
 

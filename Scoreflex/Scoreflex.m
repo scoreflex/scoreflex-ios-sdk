@@ -393,15 +393,15 @@ static BOOL _isReachable = NO;
     if (localPlayerId == nil) {
         return;
     }
-
-    if (![localPlayerId isEqualToString:targetPlayerId]) {
-        [Scoreflex showFullScreenView:@"/web/challenges" params:nil];
-        return;
-    }
-
+ 
     if (codeInt == SX_PUSH_NOTIFICATION_TYPE_CHALLENGE_INVITATION || codeInt == SX_PUSH_NOTIFICATION_TYPE_CHALLENGE_ENDED ||
         codeInt == SX_PUSH_NOTIFICATION_TYPE_YOUR_TURN_IN_CHALLENGE)
     {
+        if (![localPlayerId isEqualToString:targetPlayerId]) {
+            NSLog(@"Wrong player id");
+            [Scoreflex showFullScreenView:@"/web/challenges" params:nil];
+            return;
+        }
         NSString *challengeResource =  [NSString stringWithFormat:@"/web/challenges/instances/%@", [data objectForKey:@"challengeInstanceId"]];
         [Scoreflex showFullScreenView:challengeResource params:nil];
     }
@@ -414,6 +414,12 @@ static BOOL _isReachable = NO;
     else if (codeInt == SX_PUSH_NOTIFICATION_TYPE_FRIEND_BEAT_YOUR_HIGHSCORE)
     {
         NSString *leaderboardResource =  [NSString stringWithFormat:@"/web/leaderboards/%@", [data objectForKey:@"leaderboardId"]];
+        if (![localPlayerId isEqualToString:targetPlayerId]) {
+            NSLog(@"Wrong player id");
+            [Scoreflex showFullScreenView:leaderboardResource params:nil];
+            return;
+        }
+
         NSString *friendId = [data objectForKey:@"friendId"];
         NSDictionary *params = @{@"friendsOnly": @"true", @"focus":friendId};
         
@@ -562,7 +568,6 @@ static BOOL _isReachable = NO;
 
     if (resource && [resource rangeOfString:@"/"].location == 0)
         resource = resource.length > 1 ? [resource substringFromIndex:1] : @"";
-
     SXViewController *controller = [_preloadedWebview valueForKey:resource];
     if (controller != nil) {
         [_preloadedWebview removeObjectForKey:resource];

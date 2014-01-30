@@ -156,6 +156,7 @@ NSInteger const SXCodeShare = 200010;
 
 + (NSString *)deviceIdentifier
 {
+//    SXLog(@"Received opendUDID: %@", [OpenUDID value]);
     return [OpenUDID value];
 }
 

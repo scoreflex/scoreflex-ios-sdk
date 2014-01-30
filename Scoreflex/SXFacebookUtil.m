@@ -81,13 +81,16 @@
 
 + (void) shareUrlLoggedIn:(NSString *) title text:(NSString *) text url:(NSString *) url
 {
-    FBShareDialogParams *params = [[FBShareDialogParams alloc] init];
-    params.link = [NSURL URLWithString:url];
-    params.name = title;
-    params.caption= title;
-    params.description = text;
-    if ([FBDialogs canPresentShareDialogWithParams:params]){
-        [FBDialogs presentShareDialogWithParams:params clientState:nil handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+    Class sharDialogParams = NSClassFromString(@"FBShareDialogParams");
+    
+    id params = [[sharDialogParams alloc] init];
+    [params setLink:[NSURL URLWithString:url]];
+    [params setName:title];
+    [params setCaption:title];
+    [params setDescription:text];
+    Class fbDialogs = NSClassFromString(@"FBDialogs");
+    if ([fbDialogs canPresentShareDialogWithParams:params]){
+        [fbDialogs presentShareDialogWithParams:params clientState:nil handler:^(id call, NSDictionary *results, NSError *error) {
             
         }];
     } else {
@@ -99,7 +102,9 @@
             [shareParams setObject:url forKey:@"link"];
         }
         // Invoke the dialog
-        [FBWebDialogs presentFeedDialogModallyWithSession:[FBSession activeSession]
+        Class sessionClass = NSClassFromString(@"FBSession");
+        Class fbWebDialogs = NSClassFromString(@"FBWebDialogs");
+        [fbWebDialogs presentFeedDialogModallyWithSession:[sessionClass activeSession]
                                                parameters:shareParams
                                                   handler:
          ^(FBWebDialogResult result, NSURL *resultURL, NSError *error) {
@@ -132,7 +137,10 @@
     if (deepLink != nil) {
         [params setValue:deepLink forKey:@"data"];
     }
-    [FBWebDialogs presentRequestsDialogModallyWithSession:[sessionClass activeSession]
+
+    Class fbWebDialogs = NSClassFromString(@"FBWebDialogs");
+
+    [fbWebDialogs presentRequestsDialogModallyWithSession:[sessionClass activeSession]
                                                   message:text
                                                     title:text
                                                parameters:params

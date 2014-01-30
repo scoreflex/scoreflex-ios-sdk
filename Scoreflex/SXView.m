@@ -313,6 +313,7 @@
         urlRequest.URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@#start", [urlRequest.URL.  absoluteString stringByReplacingOccurrencesOfString:@"https:" withString:@"http:"]]];
         [self.webView loadRequest:urlRequest];
     } else  {
+        SXLog(@"will load after loading");
         [self loadUrlAfterLoggedIn:resource params:params];
     }
 
@@ -589,6 +590,8 @@
         // let the developer see the error
         return NO;
     }
+    UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    [rootViewController dismissModalViewControllerAnimated:YES];
     NSDictionary *userInfo = @{@"leaderboardId":[dataJson valueForKey:@"leaderboardId"]};
     [[NSNotificationCenter defaultCenter] postNotificationName:SX_NOTIFICATION_PLAY_LEVEL
                                                         object:self
@@ -850,6 +853,9 @@
         return NO;
     } else {
         void(^callback)(NSString *accessToken, NSError *error) = ^(NSString *accessToken, NSError *error) {
+            if (accessToken == nil || error != nil) {
+                return;
+            }
             SXConfiguration *configuration = [SXConfiguration sharedConfiguration];
             NSMutableDictionary *oauthParams = [NSMutableDictionary dictionaryWithDictionary:@{
                                                                                                @"clientId" : configuration.clientId,
