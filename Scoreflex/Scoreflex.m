@@ -31,6 +31,7 @@ static NSMutableDictionary *_preloadedWebview = nil;
 static double _startPlayingTime;
 static CLLocationManager *LocationManager = nil;
 static BOOL _isReachable = NO;
+static NSString *_currentLanguageCode = nil;
 
 @interface Scoreflex ()
 + (NSString *)scoreflexLanguageCodeForLocaleLanguageCode:(NSString *)localeLanguageCode;
@@ -330,8 +331,18 @@ static BOOL _isReachable = NO;
 
 + (NSString *)languageCode
 {
+    if (_currentLanguageCode != nil) {
+        return _currentLanguageCode;
+    }
     NSArray *preferredLanguageCodes = [NSLocale preferredLanguages];
     return [self scoreflexLanguageCodeForLocaleLanguageCode:preferredLanguageCodes.count ? [preferredLanguageCodes objectAtIndex:0] : @"en"];
+}
+
++(void) setLanguageCode:(NSString *) languageCode {
+    if ([[self validLanguageCodes] containsObject:languageCode]) {
+        _currentLanguageCode = languageCode;
+    }
+    return;
 }
 
 + (NSString *)scoreflexLanguageCodeForLocaleLanguageCode:(NSString *)localeLanguageCode

@@ -574,6 +574,13 @@ typedef enum {
 
 + (NSString *)languageCode;
 
+/**
+ Sets the current language code scoreflex should use
+ @param languageCode the language code to use
+ */
++(void) setLanguageCode:(NSString *) languageCode;
+
+
 ///----------------
 /// @name Location
 ///----------------
