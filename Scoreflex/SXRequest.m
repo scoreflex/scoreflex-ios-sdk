@@ -103,6 +103,9 @@
     // Add the language
     params = [[self class] addParameterIfNotPresent:@"lang" value:[Scoreflex languageCode] toParameters:params];
 
+    // Add the sdk version
+    params = [[self class] addParameterIfNotPresent:@"sdkVersion" value:SDX_VERSION toParameters:params];
+
     // Add the location
     CLLocation *location = [Scoreflex location];
     if (location)

@@ -14,7 +14,7 @@
 //
 
 #define RETRY_INTERVAL 10.0f
-
+#define SDX_VERSION @"iOS-1.0.0.0"
 #define USER_DEFAULTS_ACCESS_TOKEN_KEY @"__scoreflex_access_token"
 #define USER_DEFAULTS_DEVICE_TOKEN_KEY @"__scoreflex_device_token"
 #define USER_DEFAULTS_ACCESS_TOKEN_IS_ANONYMOUS_KEY @"__scoreflex_access_token_is_anonymous"
