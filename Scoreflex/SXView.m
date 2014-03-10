@@ -859,15 +859,13 @@
             SXConfiguration *configuration = [SXConfiguration sharedConfiguration];
             NSMutableDictionary *oauthParams = [NSMutableDictionary dictionaryWithDictionary:@{
                                                                                                @"clientId" : configuration.clientId,
+                                                                                               @"anonymousAccessToken" :configuration.accessToken,
                                                                                                @"devicePlatform" : @"iOS",
                                                                                                @"service": service,
                                                                                                @"deviceModel" : [SXUtil deviceModel],
                                                                                                @"serviceAccessToken":accessToken,
                                                                                                @"state" : self.authState ? self.authState : [NSNull null]
                                                                                                }];
-            NSString *udid = [SXUtil deviceIdentifier];
-            if (udid)
-                [oauthParams setValue:udid forKey:@"deviceId"];
 
             if (isLink) {
                 [self handleLinkService:oauthParams error:error service:service];

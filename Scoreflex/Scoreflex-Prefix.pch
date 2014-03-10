@@ -8,10 +8,9 @@
     #import <MobileCoreServices/MobileCoreServices.h>
     #import "SXUtil.h"
 #endif
-//
+
 #define SANDBOX_API_URL @"https://sandbox.api.scoreflex.com/v1/"
 #define PRODUCTION_API_URL @"https://api.scoreflex.com/v1/"
-//
 
 #define RETRY_INTERVAL 10.0f
 #define SDX_VERSION @"iOS-1.0.0.0"

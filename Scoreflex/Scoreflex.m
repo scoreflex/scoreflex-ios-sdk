@@ -404,7 +404,13 @@ static NSString *_currentLanguageCode = nil;
     if (localPlayerId == nil) {
         return;
     }
- 
+    
+    NSDictionary *trackParameters = @{@"code":code};
+    
+    [Scoreflex postEventually:@"/notifications/track" params:trackParameters handler:^(SXResponse *response, NSError *error) {
+
+    }];
+    
     if (codeInt == SX_PUSH_NOTIFICATION_TYPE_CHALLENGE_INVITATION || codeInt == SX_PUSH_NOTIFICATION_TYPE_CHALLENGE_ENDED ||
         codeInt == SX_PUSH_NOTIFICATION_TYPE_YOUR_TURN_IN_CHALLENGE)
     {
