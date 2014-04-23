@@ -118,7 +118,8 @@ static NSString *_currentLanguageCode = nil;
 +(NSNumber*) getPlayingTime
 {
     if (_startPlayingTime > 0) {
-        return [NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970] - _startPlayingTime];
+        NSInteger interval = 1000 * ([[NSDate date] timeIntervalSince1970] - _startPlayingTime);
+        return [NSNumber numberWithInteger:interval];
     }
     return [NSNumber numberWithInt:0];
 }
