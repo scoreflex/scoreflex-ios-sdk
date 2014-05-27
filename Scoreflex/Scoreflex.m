@@ -361,9 +361,20 @@ static NSString *_currentLanguageCode = nil;
 
     [[SXConfiguration sharedConfiguration] setDeviceToken:deviceToken];
     NSDictionary *params = [NSDictionary dictionaryWithObject:deviceToken forKey:@"token"];
-    [Scoreflex postEventually:@"/notifications/deviceTokens" params:params handler:^(SXResponse *response, NSError *error) {
+    if ([Scoreflex isInitialized] == YES) {
+        [Scoreflex postEventually:@"/notifications/deviceTokens" params:params handler:^(SXResponse *response, NSError *error) {
 
-    }];
+        }];
+    } else {
+        [[NSNotificationCenter defaultCenter] addObserverForName:SX_NOTIFICATION_INITIALIZED object:nil queue:nil usingBlock:^(NSNotification *note) {
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^{
+                [Scoreflex postEventually:@"/notifications/deviceTokens" params:params handler:^(SXResponse *response, NSError *error) {
+
+                }];
+            });
+        }];
+    }
 }
 
 + (BOOL) isInitialized
