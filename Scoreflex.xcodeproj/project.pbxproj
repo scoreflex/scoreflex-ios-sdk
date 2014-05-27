@@ -30,7 +30,7 @@
 		991E48BE177AE8BE0027F563 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9991A817175F7EEA00A01F31 /* MobileCoreServices.framework */; };
 		991E48C5177B14690027F563 /* SXView.m in Sources */ = {isa = PBXBuildFile; fileRef = 991E48C4177B14690027F563 /* SXView.m */; };
 		991E48C7177B1EF70027F563 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 991E48C6177B1EF70027F563 /* CoreLocation.framework */; };
-		991E48CC177B299B0027F563 /* SXView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 991E48C3177B14690027F563 /* SXView.h */; };
+		991E48CC177B299B0027F563 /* SXView.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 991E48C3177B14690027F563 /* SXView.h */; };
 		9938E2271782C19B0039D5FA /* SXUtilTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9938E2261782C19B0039D5FA /* SXUtilTest.m */; };
 		9948515E17B4F8FB00AAA651 /* SXGooglePlusUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 9948515D17B4F8FB00AAA651 /* SXGooglePlusUtil.m */; };
 		9955BB9317834CD100EBF78A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99914922178323CE00C03D74 /* CoreFoundation.framework */; };
@@ -40,7 +40,7 @@
 		997CB25B177890C1003D149D /* SXRequestVault.m in Sources */ = {isa = PBXBuildFile; fileRef = 997CB25A177890C1003D149D /* SXRequestVault.m */; };
 		9991491817830FB000C03D74 /* SXViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9991491717830FB000C03D74 /* SXViewController.m */; };
 		9991A7A5175F678D00A01F31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9991A7A4175F678D00A01F31 /* Foundation.framework */; };
-		9991A7AA175F678D00A01F31 /* Scoreflex.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9991A7A9175F678D00A01F31 /* Scoreflex.h */; };
+		9991A7AA175F678D00A01F31 /* Scoreflex.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 9991A7A9175F678D00A01F31 /* Scoreflex.h */; };
 		9991A7AC175F678D00A01F31 /* Scoreflex.m in Sources */ = {isa = PBXBuildFile; fileRef = 9991A7AB175F678D00A01F31 /* Scoreflex.m */; };
 		9991A7B4175F678D00A01F31 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9991A7B3175F678D00A01F31 /* SenTestingKit.framework */; };
 		9991A7B7175F678D00A01F31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9991A7A4175F678D00A01F31 /* Foundation.framework */; };
@@ -59,7 +59,7 @@
 		9991A7F8175F6D7700A01F31 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 9991A7EF175F6D7700A01F31 /* UIImageView+AFNetworking.m */; };
 		9991A80D175F754400A01F31 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = 9991A80B175F754400A01F31 /* OpenUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9991A810175F794C00A01F31 /* SXResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9991A80F175F794C00A01F31 /* SXResponse.m */; };
-		9991A811175F7B1500A01F31 /* SXResponse.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9991A80E175F794C00A01F31 /* SXResponse.h */; };
+		9991A811175F7B1500A01F31 /* SXResponse.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 9991A80E175F794C00A01F31 /* SXResponse.h */; };
 		9991A814175F7B4000A01F31 /* SXClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 9991A813175F7B4000A01F31 /* SXClient.m */; };
 		9991A816175F7EE500A01F31 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9991A815175F7EE400A01F31 /* SystemConfiguration.framework */; };
 		9991A818175F7EEA00A01F31 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9991A817175F7EEA00A01F31 /* MobileCoreServices.framework */; };
@@ -75,7 +75,7 @@
 		99EEE3551769F7EE001D9CE3 /* SXUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 99EEE3541769F7EE001D9CE3 /* SXUtil.m */; };
 		99FD9771177055EF007637B3 /* SXRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 99FD9770177055EF007637B3 /* SXRequest.m */; };
 		F99BA0DF17B0FC6B00EF57A6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99BA0DE17B0FC6B00EF57A6 /* UIKit.framework */; };
-		F9B0D04717A123CB005444DA /* ScoreflexResources.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9955BB9217834CD100EBF78A /* ScoreflexResources.bundle */; };
+		F9B0D04717A123CB005444DA /* ScoreflexResources.bundle in Copy Files */ = {isa = PBXBuildFile; fileRef = 9955BB9217834CD100EBF78A /* ScoreflexResources.bundle */; };
 		F9C9717E1868A1F80088CEFF /* GooglePlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C9717D1868A1F80088CEFF /* GooglePlus.framework */; };
 		F9C971831868A20F0088CEFF /* GoogleOpenSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C971821868A20F0088CEFF /* GoogleOpenSource.framework */; };
 /* End PBXBuildFile section */
@@ -112,17 +112,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		9991A79F175F678D00A01F31 /* CopyFiles */ = {
+		9991A79F175F678D00A01F31 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
-				991E48CC177B299B0027F563 /* SXView.h in CopyFiles */,
-				9991A811175F7B1500A01F31 /* SXResponse.h in CopyFiles */,
-				9991A7AA175F678D00A01F31 /* Scoreflex.h in CopyFiles */,
-				F9B0D04717A123CB005444DA /* ScoreflexResources.bundle in CopyFiles */,
+				991E48CC177B299B0027F563 /* SXView.h in Copy Files */,
+				9991A811175F7B1500A01F31 /* SXResponse.h in Copy Files */,
+				9991A7AA175F678D00A01F31 /* Scoreflex.h in Copy Files */,
+				F9B0D04717A123CB005444DA /* ScoreflexResources.bundle in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -448,7 +449,7 @@
 			buildPhases = (
 				9991A79D175F678D00A01F31 /* Sources */,
 				9991A79E175F678D00A01F31 /* Frameworks */,
-				9991A79F175F678D00A01F31 /* CopyFiles */,
+				9991A79F175F678D00A01F31 /* Copy Files */,
 			);
 			buildRules = (
 			);
