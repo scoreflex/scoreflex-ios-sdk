@@ -216,6 +216,7 @@ static NSMutableArray *tokenFetchedHandlers;
 #pragma mark - Access Token
 - (BOOL)fetchAnonymousAccessTokenIfNeeded {
     [self fetchAnonymousAccessTokenAndCall:nil failure:nil nbRetry:0];
+    return YES;
 }
 
 - (BOOL)fetchAnonymousAccessTokenIfNeededAndCall:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
